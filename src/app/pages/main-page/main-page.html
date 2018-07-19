@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a href="/" class="navbar-brand">HBO</a>
+    <button class="navbar-toggler" type="button" [attr.aria-expanded]="!navbarCollapsed" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation" data-target="#navbar7" (click)="navbarCollapsed = !navbarCollapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="navbar-collapse collapse justify-content-stretch" [ngbCollapse]="navbarCollapsed" id="navbar7">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link">Welcome {{userName}}</a>
+            </li>
+            <li class="nav-item">
+
+                <button class="btn custom-button" type="button" (click)="open()">Logout</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="main-page-container container">
+    <button type="button" class="k-button" (click)="excelexport.save()">Export To Excel</button>
+    <kendo-grid [data]="gridData" [height]="600" [pageSize]="pageSize" [skip]="state.skip" [pageable]="{
+          buttonCount: buttonCount,
+          info: info,
+          type: type,
+          pageSizes: pageSizes,
+          previousNext: previousNext
+        }" [filterable]="true" [filter]="state.filter" [skip]="state.skip" [sort]="state.sort" [sortable]="{
+            allowUnsort: allowUnsort,
+            mode: multiple ? 'multiple' : 'single'
+            }" (sortChange)="sortChange($event)" (pageChange)="pageChange($event)" (filterChange)="filterChange($event)">
+        <kendo-grid-column media="(max-width: 450px)" title="Customers">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <!-- template for mobile -->
+                <dt>Code</dt>
+                <h6>
+                    {{ dataItem.Id }}
+                </h6>
+                <dl>
+                    <dt>Name</dt>
+                    <dd>{{ dataItem.ContactName }}</dd>
+
+                    <dt>Company</dt>
+                    <dd>{{ dataItem.CompanyName }}</dd>
+
+                    <dt>City</dt>
+                    <dd>{{ dataItem.City }}</dd>
+                </dl>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="Id" title="Code" media="(min-width: 450px)">
+        </kendo-grid-column>
+        <kendo-grid-column field="ContactName" title="Name" media="(min-width: 450px)">
+        </kendo-grid-column>
+        <kendo-grid-column field="CompanyName" title="Company" media="(min-width: 450px)">
+        </kendo-grid-column>
+        <kendo-grid-column field="City" title="City" media="(min-width: 450px)">
+        </kendo-grid-column>
+        <kendo-excelexport [data]="data" fileName="Customers.xlsx" #excelexport>
+            <kendo-excelexport-column *ngFor="let field of fields" [field]="field" [locked]="field === 'CompanyName'" [width]="200">
+            </kendo-excelexport-column>
+        </kendo-excelexport>
+    </kendo-grid>
+</div>
+
+<kendo-dialog *ngIf="opened" (close)="close('cancel')" [minWidth]="250" [width]="450">
+    <kendo-dialog-titlebar>
+        <div style="font-size: 18px; line-height: 1.3em;">
+            <span class="fa fa-exclamation-triangle"></span> Please confirm
+        </div>
+    </kendo-dialog-titlebar>
+    <p style="margin: 30px; text-align: center;">Do you want to exit of this page?</p>
+    <kendo-dialog-actions>
+        <button kendoButton (click)="close('no')">No</button>
+        <button kendoButton (click)="closeView('yes')" primary="true">Yes</button>
+    </kendo-dialog-actions>
+</kendo-dialog>
+
+
+<div class="my-container">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+</div>

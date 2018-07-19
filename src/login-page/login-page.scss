@@ -1,0 +1,19 @@
+.login-background {
+    background-size: cover;
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.custom-button {
+    background-color: #2bb0d8;
+    color: #fff;
+    border-radius: .125rem;
+    padding-left: .875rem;
+    padding-right: .875rem;
+    font-size: 0.6875rem;
+}
