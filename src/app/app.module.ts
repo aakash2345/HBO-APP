@@ -15,14 +15,11 @@ import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { MainPageComponent } from './pages/main-page/main-page.component';
 import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     MainPageComponent
-
   ],
   imports: [
     BrowserModule,
@@ -33,15 +30,14 @@ import { ExcelExportModule } from '@progress/kendo-angular-excel-export';
     DialogModule,
     ButtonsModule,
     LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.wanderingCubes,
-      primaryColour: '#ffb91d',
-      secondaryColour: '#ffb91d',
-      tertiaryColour: '#ffb91d'
+      animationType: ANIMATION_TYPES.chasingDots,
+      primaryColour: '#2bb0d8',
+      secondaryColour: '#2bb0d8',
+      tertiaryColour: '#2bb0d8'
     }),
     AppRouting,
     DialogsModule,
     ExcelExportModule
-
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

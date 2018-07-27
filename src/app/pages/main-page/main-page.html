@@ -9,7 +9,6 @@
                 <a class="nav-link">Welcome {{userName}}</a>
             </li>
             <li class="nav-item">
-
                 <button class="btn custom-button" type="button" (click)="open()">Logout</button>
             </li>
         </ul>
@@ -60,7 +59,6 @@
         </kendo-excelexport>
     </kendo-grid>
 </div>
-
 <kendo-dialog *ngIf="opened" (close)="close('cancel')" [minWidth]="250" [width]="450">
     <kendo-dialog-titlebar>
         <div style="font-size: 18px; line-height: 1.3em;">
@@ -73,8 +71,6 @@
         <button kendoButton (click)="closeView('yes')" primary="true">Yes</button>
     </kendo-dialog-actions>
 </kendo-dialog>
-
-
 <div class="my-container">
     <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 </div>

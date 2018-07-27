@@ -1,20 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { GridComponent, GridDataResult, PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
-import { SortDescriptor, orderBy, process, State, aggregateBy, filterBy, compileFilter, CompositeFilterDescriptor } from '@progress/kendo-data-query';
+import { Component, OnInit } from '@angular/core';
+import { GridDataResult, PageChangeEvent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { SortDescriptor, orderBy, process, State, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { Router } from '@angular/router';
 import { customers, sampleCustomers } from './customers';
-import { Observable } from 'rxjs';
 declare var $: any;
-// const filterResult = compileFilter( {
-//   logic: 'and',
-//   filters: [
-//     { field: 'ContactName', operator: 'contains' },
-//     { field: 'ContactTitle', operator: 'contains', value: '' },
-//     { field: 'Id', operator: 'contains', value: '' },
-//     { field: 'CompanyName', operator: 'contains', value: 'Bo' },
-//     { field: 'City', operator: 'contains', value: '' }]
-// });
+
 const flatten = filter => {
   const filters = filter.filters;
   if (filters) {
@@ -28,7 +18,7 @@ const flatten = filter => {
   styleUrls: ['./main-page.scss'],
 })
 
-export class MainPageComponent implements OnInit, AfterViewInit {
+export class MainPageComponent implements OnInit {
   public navbarCollapsed = true;
   public loading = false;
   public filter: CompositeFilterDescriptor;
@@ -37,8 +27,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   public data: any[] = customers;
   public fields: string[] = Object.keys(this.data[0]);
   private items: any[] = customers;
-
-  // public gridData: GridDataResult;
   private skip: number = 0;
   multiple: boolean = false;
   allowUnsort: boolean = true;
@@ -54,8 +42,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   constructor(private router: Router) {
     this.loading = true;
     this.userName = sessionStorage.getItem('userName');
-
-
   }
 
   ngOnInit(): Promise<any> {
@@ -63,33 +49,16 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     this.loadProducts();
     return new Promise(resolve => {
       // Simulate server latency with 2 second delay
-      setTimeout(() => resolve(this.loading = false), 2000);
+      setTimeout(() => resolve(this.loading = false), 5000);
     });
-
   }
-
-  ngAfterViewInit() {
-  }
-  public open() {
-    this.opened = true;
-  }
-  public close(status) {
-    console.log(`Dialog result: ${status}`);
-    this.opened = false;
-  }
-  public closeView(status, value) {
-    this.opened = false;
-    this.router.navigateByUrl('/login');
-  }
-
-
 
   public state: State = {
     skip: 0,
-    take: 10,
+    take: 20,
     filter: {
       logic: 'and',
-      filters: [,
+      filters: [
         { field: 'ContactName', operator: 'contains', value: '' },
         { field: 'ContactTitle', operator: 'contains', value: '' },
         { field: 'Id', operator: 'contains', value: '' },
@@ -98,17 +67,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     }
   };
 
-
-  public dataStateChange(state: DataStateChangeEvent): void {
-    this.state = state;
-    this.gridData = process(sampleCustomers, this.state);
-  }
-
-  public filterChange(filter: CompositeFilterDescriptor): void {
-    this.filter = filter;
-    this.gridData = process(sampleCustomers, this.state);
-  }
-
   public gridData: GridDataResult = process(sampleCustomers, this.state);
 
   private loadProducts(): void {
@@ -116,6 +74,15 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       data: orderBy(this.items.slice(this.skip, this.skip + this.pageSize), this.sort),
       total: this.items.length
     };
+  }
+
+  public dataStateChange(state: DataStateChangeEvent): void {
+    this.state = state;
+    this.gridData = process(sampleCustomers, this.state);
+  }
+  public filterChange(filter: CompositeFilterDescriptor): void {
+    this.filter = filter;
+    this.gridData = process(sampleCustomers, this.state);
   }
 
   protected pageChange({ skip, take }: PageChangeEvent): void {
@@ -129,6 +96,18 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     this.loadProducts();
   }
 
+  public open() {
+    this.opened = true;
+  }
 
+  public close(status) {
+    console.log(`Dialog result: ${status}`);
+    this.opened = false;
+  }
+
+  public closeView() {
+    this.opened = false;
+    this.router.navigateByUrl('/login');
+  }
 }
 

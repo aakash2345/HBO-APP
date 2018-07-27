@@ -1,13 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { of as observableOf } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { Router, Route, ActivatedRoute, Params } from '@angular/router';
-
-import { Observable } from 'rxjs';
-
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'login-page',
@@ -15,16 +8,13 @@ import { Observable } from 'rxjs';
   styleUrls: ['./login-page.scss'],
 })
 export class LoginPageComponent implements OnInit {
-  private paramBackgroundColor: string = 'white';
-  userIdValidation = new FormControl('', [Validators.required]);
 
+  private paramBackgroundColor: string = 'white';
   public hide = true;
   loginForm: FormGroup;
   private submitted = false;
-  //   private user: UserModel[];
   userDefinedId: string;
   password: string;
-
   public loading = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private fb: FormBuilder) {
@@ -36,28 +26,29 @@ export class LoginPageComponent implements OnInit {
     if (id != null) {
       this.paramBackgroundColor = id;
     }
-    //#ffb91d
   }
   ngOnInit() {
     this.loginForm = this.fb.group({
       name: ['', [
         Validators.required,
-        Validators.pattern("(^|\W)admin($|\W)"), //"^(?<![\w\d])admin(?![\w\d])$" // /(^|\W)cos($|\W)/
+        Validators.pattern("(^|\W)admin($|\W)"),
       ],],
+      //"^(?<![\w\d])admin(?![\w\d])$" // /(^|\W)cos($|\W)/
       password: ['',
         [
           Validators.required,
           Validators.pattern("^(?=.*?[A-Z])(?=.*?[0-9]).{8,}"),
           Validators.minLength(8)
         ],
-        this.validPassword.bind(this)]
+        // this.validPassword.bind(this)
+      ]
     });
   }
-  validPassword(control: AbstractControl) {
-    return observableOf('12345678910' === control.value).pipe(
-      map(result => result ? { invalid: true } : null)
-    );
-  }
+  // validPassword(control: AbstractControl) {
+  //   return observableOf('12345678910' === control.value).pipe(
+  //     map(result => result ? { invalid: true } : null)
+  //   );
+  // }
   // ['', [Validators.required, Validators.maxLength(8)]]
   onSubmit() {
     this.submitted = true;

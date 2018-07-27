@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages.routing';
 import { PagesComponent } from './pages.component';
-import { AuthGuard } from '../../services/auth-guard.service'
 import { MainPageModule } from './main-page/main-page.module'
 
 @NgModule({
